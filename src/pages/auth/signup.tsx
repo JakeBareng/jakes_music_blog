@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const Signup: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -14,8 +15,23 @@ const Signup: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        //TODO: Implement signup logic
 
+        const formdata = new FormData();
+        formdata.append('email', email);
+        formdata.append('password', password);
+
+        // submit form data to the server
+        fetch('/api/signup', {
+            method: 'POST',
+            body: formdata
+        })
+            .then(response => response.json())
+            .then(data => {
+                // handle response data
+            })
+            .catch(error => {
+                // handle error
+            });
     };
     return (
         <div>
@@ -29,6 +45,7 @@ const Signup: React.FC = () => {
                     <label>Password:</label>
                     <input type="password" value={password} onChange={handlePasswordChange} />
                 </div>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
                 <button type="submit">Sign Up</button>
             </form>
         </div>
