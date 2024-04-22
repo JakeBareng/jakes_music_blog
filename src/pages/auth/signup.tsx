@@ -1,3 +1,5 @@
+import { redirect } from 'next/dist/server/api-utils';
+import { Router } from 'next/router';
 import React, { useState } from 'react';
 
 const Signup: React.FC = () => {
@@ -13,25 +15,23 @@ const Signup: React.FC = () => {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const formdata = new FormData();
-        formdata.append('email', email);
-        formdata.append('password', password);
-
         // submit form data to the server
-        fetch('/api/signup', {
+        const res = await fetch('/api/signup', {
             method: 'POST',
-            body: formdata
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
         })
-            .then(response => response.json())
-            .then(data => {
-                // handle response data
-            })
-            .catch(error => {
-                // handle error
-            });
+
+        const data = await res.json();
+
+        if (data.error) {
+            setError(data.error);
+            return;
+        }
+
     };
     return (
         <div>

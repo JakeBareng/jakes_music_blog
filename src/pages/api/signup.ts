@@ -1,25 +1,32 @@
+import User from "@/models/user";
 import { NextApiRequest } from "next";
 import { NextApiResponse } from "next";
-import { connectToMongodb } from "@/util/mongodb";
-import { User } from "@/models/user";
+import connectDB from "../lib/connectDB";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { email, password } = req.body;
+  try {
+    if (req.method !== "POST")
+      return res.status(405).json({ error: "Method not allowed." });
 
-  if (!email || !password) {
-    return res.status(422).json({ error: "Email and password are required." });
+    await connectDB();
+
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(422).json({ error: "Email and password are required." });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(422).json({ error: "User already exists." });
+    }
+
+    const newUser = new User({ email, password });
+    newUser.save();
+
+    return res.status(201).json({ message: "User created successfully." });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
   }
-
-  await connectToMongodb();
-
-  const user = await User.findOne({ email });
-
-  if (user) {
-    return res.status(422).json({ error: "User already exists." });
-  }
-
-  const newUser = new User({ email, password });
-  newUser.save(); 
-  
-  return res.status(201).json({ message: "User created successfully." });
 };
