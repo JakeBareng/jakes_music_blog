@@ -1,11 +1,9 @@
-import React from 'react';
+import LoginBtn from "@/components/login-btn"
 
-const HomePage: React.FC = () => {
+export default function index() {
     return (
-        <div>
-            <h1>Welcome to my Music blog!</h1>
-        </div>
-    );
-};
-
-export default HomePage;
+          <div>
+            <LoginBtn />
+          </div>
+    ) 
+}
