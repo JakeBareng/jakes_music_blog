@@ -1,24 +1,25 @@
-import * as AWS from 'aws-sdk';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import multer from 'multer';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-const s3 = new AWS.S3({
-    region: process.env.AWS_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
+import { getSession } from 'next-auth/react';
 
 
-export default async function handler(req: NextApiRequest, res:NextApiResponse) {
-    if (req.method === 'POST') {
-        const file = req.body.file;
-        const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: file.name,
-            Body: file,
-        };
-
-
-    } else {
-        res.status(405).send('Method Not Allowed');
+export const config = {
+    api: {
+        bodyParser: false,
     }
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method !== 'POST')
+        return res.status(405).send('Method Not Allowed');
+
+    try {
+        const data = await req.formData();
+
+    } catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
+
+    res.status(200).send('File uploaded');
 }

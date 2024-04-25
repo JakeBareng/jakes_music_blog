@@ -3,11 +3,11 @@ import { useState } from "react";
 
 export default function Upload() {
     const { data: session, status } = useSession();
+    const [file, setFile] = useState<File | undefined>(undefined);
     const [tagValue, setTagValue] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
     const [title, setTitle] = useState<string>('');
     const [bpm, setBpm] = useState<number>(0);
-    const [file, setFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>('');
 
     if (status === "loading") {
@@ -19,33 +19,42 @@ export default function Upload() {
     }
 
     function clearInputs() {
-        setFile(null);
         setTitle('');
         setBpm(0);
         setTags([]);
         setTagValue('');
+        setFile(undefined);
     }
 
-    function handleUpload(event: any){
+    async function handleUpload(event: any) {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('file', file as Blob);
-        formData.append('title', title);
-        formData.append('bpm', bpm.toString());
-        formData.append('tags', JSON.stringify(tags));
-        fetch('/api/upload', {
-            method: 'POST',
-            body: formData,
-        }).then(response => {
-            if (response.ok) {
-                clearInputs();
-                setError(null);
-            } else {
-                setError('Failed to upload file');
+        if (!file) {
+            setError('Please select a file');
+            return;
+        }
+
+        const res = await fetch('/api/getSignedUrl',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             }
-        }).catch(error => {
-            setError(error.message);
-        });
+        )
+
+        if (res.status === 200) {
+            const { url } = await res.json();
+            console.log(url);
+            await fetch (url, {
+                method: 'PUT',
+                body: file,
+                headers: {
+                    'Content-Type': file.type,
+                },
+                mode: 'cors',
+                cache: 'no-cache',
+            })
+        }
     }
 
 
@@ -63,24 +72,17 @@ export default function Upload() {
         setTagValue('');
     }
 
+    const handleFileChange = (event: any) => {
+        const file = event.target.files?.[0];
+        setFile(file);
+    }
 
     return (
         <>
             <h1>Upload</h1>
             <p>Upload your files here</p>
-            <form onSubmit={handleUpload}>
-                <input type="file" name="file" onChange={
-                    (event) => {
-                        const selectedFile = event.target.files?.[0];
-                        if (selectedFile) {
-                            setFile(selectedFile);
-                        }
-                    }
-                }
-                value={
-                    file ? file.name : ''
-                }
-                />
+            <form onSubmit={handleUpload} encType="multipart/form-data">
+                <input type="file" name="file" onChange={handleFileChange} />
                 <input type="text" name="title" placeholder="Title" value={title} onChange={e => { setTitle(e.target.value) }} />
                 <input type="number" name="bpm" min={0} placeholder="BPM" onChange={e => { setBpm(e.target.valueAsNumber) }} value={bpm} />
 
