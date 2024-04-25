@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'GET')
+    if (req.method !== 'POST')
         return res.status(405).send('Method Not Allowed');
     const sessions = await getServerSession(req, res, authOptions);
     if (!sessions) {
@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const putObjectCommand = new PutObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME || '',
-        Key: 'test.mp3',
+        Key: req.body.filename,
     });
 
     const signedURL = await getSignedUrl(client, putObjectCommand, {

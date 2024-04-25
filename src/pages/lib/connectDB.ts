@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const DATABASE_URL = process.env.MONGODB_URI || "";
 
 if (!DATABASE_URL) {
-  throw new Error("Please provide a MongoDB URI");
+    throw new Error("Please provide a MongoDB URI");
 }
 
 let cached = global.mongoose;
@@ -20,24 +20,28 @@ if (!cached) {
 }
 
 async function connectDB() {
-    if (cached.conn) {
+    try {
+        if (cached.conn) {
+            return cached.conn;
+        }
+
+        if (!cached.promise) {
+            const opts = {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                bufferCommands: false,
+            };
+
+            cached.promise = mongoose.connect(DATABASE_URL, opts).then((mongoose) => {
+                return mongoose;
+            });
+        }
+
+        cached.conn = await cached.promise;
         return cached.conn;
+    } catch (error) {
+        console.error("Error connecting to database", error);
     }
-    
-    if (!cached.promise) {
-        const opts = {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        bufferCommands: false,
-        };
-    
-        cached.promise = mongoose.connect(DATABASE_URL, opts).then((mongoose) => {
-        return mongoose;
-        });
-    }
-    
-    cached.conn = await cached.promise;
-    return cached.conn;
 }
 
 export default connectDB;
