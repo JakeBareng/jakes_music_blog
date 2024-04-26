@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 const songSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -16,15 +16,6 @@ const songSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    songUploader: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
     tags: {
         type: [String],
         required: true,
@@ -33,14 +24,17 @@ const songSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    filename: {
+    URL: {
         type: String,
         required: true,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
-const Song = mongoose.model('Song', songSchema);
-export default Song;
+export default mongoose.models.Song || mongoose.model('Song', songSchema);
 
 
 

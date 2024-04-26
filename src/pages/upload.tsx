@@ -1,4 +1,3 @@
-import { set } from "mongoose";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
@@ -10,8 +9,10 @@ export default function Upload() {
     const [title, setTitle] = useState<string>('');
     const [bpm, setBpm] = useState<number>(0);
     const [error, setError] = useState<string | null>('');
-    const [key, setKey] = useState<string>('');
+    const [key, setKey] = useState<string>('A');
+    const [producerValue, setProducerValue] = useState<string>('');
     const [producers, setProducers] = useState<string[]>([]);
+    const [songwriterValue, setSongwriterValue] = useState<string>('');
     const [songwriters, setSongwriters] = useState<string[]>([]);
 
     if (status === "loading") {
@@ -45,15 +46,22 @@ export default function Upload() {
             setError('Please enter a BPM');
             return false;
         }
+        if (key === '') {
+            setError('Please enter a key');
+            return false;
+        }
+        if (producers.length === 0) {
+            setError('Please enter a producer');
+            return false;
+        }
         return true;
     }
 
     async function handleUpload(event: any) {
         event.preventDefault();
-        if (!checkInputs())
-            return setError('Please check your inputs')
-
         try {
+            if (!checkInputs())
+                throw new Error('Invalid inputs');
             const filename = encodeURIComponent(file?.name ?? '');
             console.log('filename', filename);
             const res = await fetch('/api/getSignedUrl', {
@@ -99,8 +107,8 @@ export default function Upload() {
             })
             if (metadataUpload.status !== 200)
                 throw new Error('Error uploading metadata');
-        } catch (error) {
-            setError('Error uploading file');
+        } catch (error: any) {
+            setError(error.message);
         }
     }
 
@@ -134,13 +142,17 @@ export default function Upload() {
 
     const addProducer = (event: any) => {
         event.preventDefault();
-        const producer = event.target.value;
+        const producer = producerValue;
+        producer.trim();
         setProducers(prevProducers => [...prevProducers, producer]);
+        setProducerValue('');
     }
     const addSongwriter = (event: any) => {
         event.preventDefault();
-        const songwriter = event.target.value;
+        const songwriter = songwriterValue;
+        songwriter.trim();
         setSongwriters(prevSongwriters => [...prevSongwriters, songwriter]);
+        setSongwriterValue('');
     }
 
     const allKeys = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
@@ -153,7 +165,7 @@ export default function Upload() {
                 <input type="file" name="file" onChange={handleFileChange} />
                 <input type="text" name="title" placeholder="Title" value={title} onChange={e => { setTitle(e.target.value) }} />
                 <input type="number" name="bpm" min={0} placeholder="BPM" onChange={e => { setBpm(e.target.valueAsNumber) }} value={bpm} />
-                <select name="key" id="key" onChange={(event) => {setKey(event.target.value)}} value={key}>
+                <select name="key" id="key" onChange={(event) => { setKey(event.target.value) }} value={key}>
                     {allKeys.map((key, index) => (
                         <option key={index} value={key}>{key}</option>
                     ))}
@@ -189,7 +201,18 @@ export default function Upload() {
                 </section>
                 <section>
                     <h2>Producers</h2>
-                    <input type="text" name="producer" placeholder="Add producer" onChange={addProducer} />
+                    <input type="text" name="producer" placeholder="Add producer"
+                        onChange={e => setProducerValue(e.target.value)}
+                        value={producerValue}
+                        onKeyDown={
+                            (event) => {
+                                if (event.key === 'Enter') {
+                                    addProducer(event);
+                                }
+                            }
+                        }
+                    />
+                    <button type="button" onClick={addProducer}>Add</button>
                     <ul>
                         {producers.map((producer, index) => (
                             <li key={index}>{producer}</li>
@@ -198,7 +221,18 @@ export default function Upload() {
                 </section>
                 <section>
                     <h2>Songwriters</h2>
-                    <input type="text" name="songwriter" placeholder="Add songwriter" onChange={addSongwriter} />
+                    <input type="text" name="songwriter" placeholder="Add songwriter"
+                        onChange={e => setSongwriterValue(e.target.value)}
+                        value={songwriterValue}
+                        onKeyDown={
+                            (event) => {
+                                if (event.key === 'Enter') {
+                                    addSongwriter(event);
+                                }
+                            }
+                        }
+                    />
+                    <button type="button" onClick={addSongwriter}>Add</button>
                     <ul>
                         {songwriters.map((songwriter, index) => (
                             <li key={index}>{songwriter}</li>
