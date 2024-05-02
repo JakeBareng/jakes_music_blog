@@ -1,9 +1,9 @@
-import LoginBtn from "@/components/login-btn"
+import Visualizer from "@/components/visualizer/visualizer";
 
 export default function index() {
-    return (
-          <div>
-            <LoginBtn />
-          </div>
-    ) 
+  return (
+    <>
+      <Visualizer />
+    </>
+  )
 }

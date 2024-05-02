@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import Song from '@/models/song';
 import connectMongo from '../lib/connectDB';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
 
 
 
@@ -9,14 +11,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== 'POST')
         return res.status(405).send('Method Not Allowed');
 
-    //check if user is authenticated
-    // const session = await getSession({ req });
-    // if (!session) {
-    //     return res.status(401).send('Unauthorized');
-    // }
-    //check if user is admin
-
     try {
+        // Check if the user is authenticated
+        const sessions = await getServerSession(req, res, authOptions);
+
+        if (!sessions) {
+            return res.status(401).send('Unauthorized');
+        }
+
         //connect to db
         await connectMongo();
 
