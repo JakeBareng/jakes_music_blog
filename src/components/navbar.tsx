@@ -3,42 +3,38 @@ import LoginBtn from "./login-btn";
 
 function Navbar() {
     const { data: session } = useSession();
-    // position absolute, top 0, left 0, right 0, z-50
-    const navbarStyle = "absolute bg-gray-800 text-white p-4 flex justify-between items-center"
 
     // have constant size and make overflow visible
-    const listItemStyle = "px-4 py-2"
+    const listItemStyle = ""
 
     // unordered list, no bullets, horizontal, no padding, no margin
-    const ulStyle = "list-none flex"
+    const ulStyle = "absolute"
 
     return (
-        <nav className={navbarStyle}>
-            <ul className={ulStyle}>
+        <ul className={ulStyle}>
+            <li className={listItemStyle}>
+                <a href="/">Home</a>
+            </li>
+            <li className={listItemStyle}>
+                <a href="/about">About</a>
+            </li>
+            <li className={listItemStyle}>
+                <a href="/contact">Contact</a>
+            </li>
+            {session && (
                 <li className={listItemStyle}>
-                    <a href="/">Home</a>
+                    <a href="/upload">Upload</a>
                 </li>
+            )}
+            <li className={listItemStyle}>
+                <LoginBtn />
+            </li>
+            {session && (
                 <li className={listItemStyle}>
-                    <a href="/about">About</a>
+                    <p>Signed in as {session?.user?.email}</p>
                 </li>
-                <li className={listItemStyle}>
-                    <a href="/contact">Contact</a>
-                </li>
-                {session && (
-                    <li className={listItemStyle}>
-                        <a href="/upload">Upload</a>
-                    </li>
-                )}
-                <li className={listItemStyle}>
-                    <LoginBtn />
-                </li>
-                {session && (
-                    <li className={listItemStyle}>
-                        <p>Signed in as {session?.user?.email}</p>
-                    </li>
-                )}
-            </ul>
-        </nav>
+            )}
+        </ul>
     );
 }
 
