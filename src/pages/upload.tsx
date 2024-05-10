@@ -156,7 +156,7 @@ export default function Upload() {
         setSongwriterValue('');
     }
 
-    const allKeys = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+    const allKeys = ['N/A','A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
     return (
         <div className={`flex flex-col align-middle w-3/12 m-auto mt-56`}>
@@ -166,7 +166,7 @@ export default function Upload() {
                 <form onSubmit={handleUpload} encType="multipart/form-data" className="flex flex-col">
                     <input type="file" name="file" onChange={handleFileChange} />
                     <input type="text" name="title" placeholder="Title" value={title} onChange={e => { setTitle(e.target.value) }} />
-                    <input type="number" name="bpm" min={0} placeholder="BPM" onChange={e => { setBpm(e.target.valueAsNumber) }} value={bpm} />
+                    <input type="number" name="bpm" min={-1} placeholder="BPM" onChange={e => { setBpm(e.target.valueAsNumber) }} value={bpm} />
                     <select name="key" id="key" onChange={(event) => { setKey(event.target.value) }} value={key}>
                         {allKeys.map((key, index) => (
                             <option key={index} value={key}>{key}</option>

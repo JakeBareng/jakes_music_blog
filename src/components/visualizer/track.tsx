@@ -1,14 +1,12 @@
 import { InstancedMeshProps, useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
-import { suspend } from "suspend-react";
 import * as THREE from "three";
 import { createAudio } from "./createAudio";
 
-export function Track({ url, y = 1800, space = .4, width = 0.04, height = 0.05, depth = 0.05, obj = new THREE.Object3D(), ...props }: any) {
+export function Track({ audio, y = 1800, space = .4, width = 0.04, height = 0.05, depth = 0.05, obj = new THREE.Object3D(), ...props }: any) {
     const ref = useRef<any>()
-    // suspend-react is the library that r3f uses internally for useLoader. It caches promises and
-    // integrates them with React suspense. You can use it as-is with or without r3f.
-    const { gain, context, update, data } = suspend(() => createAudio(url), [url])
+    const { gain, context, update, data } = audio;
+
     useEffect(() => {
         // Connect the gain node, which plays the audio
         gain.connect(context.destination)
