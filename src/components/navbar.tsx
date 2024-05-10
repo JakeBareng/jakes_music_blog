@@ -8,10 +8,9 @@ function Navbar() {
     const listItemStyle = ""
 
     // unordered list, no bullets, horizontal, no padding, no margin
-    const ulStyle = "absolute"
 
     return (
-        <ul className={ulStyle}>
+        <ul className={`absolute p-10 z-50`}>
             <li className={listItemStyle}>
                 <a href="/">Home</a>
             </li>

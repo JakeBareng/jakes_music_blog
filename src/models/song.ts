@@ -1,4 +1,16 @@
 import mongoose from "mongoose";
+
+export type Song = {
+    title: string;
+    producers: string[];
+    songwriters: string[];
+    bpm: number;
+    tags: string[];
+    key: string;
+    URL: string;
+    createdAt: Date;
+}
+
 const songSchema = new mongoose.Schema({
     title: {
         type: String,

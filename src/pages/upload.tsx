@@ -62,15 +62,16 @@ export default function Upload() {
         try {
             if (!checkInputs())
                 throw new Error('Invalid inputs');
-            const filename = encodeURIComponent(file?.name ?? '');
-            console.log('filename', filename);
+
+            const filename = file?.name;
+
             const res = await fetch('/api/getSignedUrl', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    filename: filename,
+                    filename,
                 }),
             });
             if (res.status !== 200)
@@ -158,90 +159,93 @@ export default function Upload() {
     const allKeys = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
     return (
-        <>
-            <h1>Upload</h1>
-            <p>Upload your files here</p>
-            <form onSubmit={handleUpload} encType="multipart/form-data">
-                <input type="file" name="file" onChange={handleFileChange} />
-                <input type="text" name="title" placeholder="Title" value={title} onChange={e => { setTitle(e.target.value) }} />
-                <input type="number" name="bpm" min={0} placeholder="BPM" onChange={e => { setBpm(e.target.valueAsNumber) }} value={bpm} />
-                <select name="key" id="key" onChange={(event) => { setKey(event.target.value) }} value={key}>
-                    {allKeys.map((key, index) => (
-                        <option key={index} value={key}>{key}</option>
-                    ))}
-                </select>
-                <section>
-                    <h2>Tags</h2>
-                    <input type="text" name="tag" placeholder="Add tag" onChange={
-                        (event) => {
-                            setTagValue(event.target.value);
+        <div className={`flex flex-col align-middle w-3/12 m-auto mt-56`}>
+            <>
+                <h1>Upload</h1>
+                <p>Upload your files here</p>
+                <form onSubmit={handleUpload} encType="multipart/form-data" className="flex flex-col">
+                    <input type="file" name="file" onChange={handleFileChange} />
+                    <input type="text" name="title" placeholder="Title" value={title} onChange={e => { setTitle(e.target.value) }} />
+                    <input type="number" name="bpm" min={0} placeholder="BPM" onChange={e => { setBpm(e.target.valueAsNumber) }} value={bpm} />
+                    <select name="key" id="key" onChange={(event) => { setKey(event.target.value) }} value={key}>
+                        {allKeys.map((key, index) => (
+                            <option key={index} value={key}>{key}</option>
+                        ))}
+                    </select>
+                    <section>
+                        <h2>Tags</h2>
+                        <input type="text" name="tag" placeholder="Add tag" onChange={
+                            (event) => {
+                                setTagValue(event.target.value);
+                            }
+                        } onKeyDown={
+                            (event) => {
+                                if (event.key === 'Enter') {
+                                    addTag(event);
+                                }
+                            }
                         }
-                    } onKeyDown={
-                        (event) => {
-                            if (event.key === 'Enter') {
+                            value={tagValue}
+                        />
+                        <button type="button" onClick={
+                            (event) => {
                                 addTag(event);
                             }
-                        }
-                    }
-                        value={tagValue}
-                    />
-                    <button type="button" onClick={
-                        (event) => {
-                            addTag(event);
-                        }
-                    } >Add</button>
-                    <ul>
-                        {tags.map((tag, index) => (
-                            <>
-                                <li key={index}>{tag}</li>
-                                <button type="button" onClick={() => { removeTag(index) }}>Remove</button>
-                            </>
-                        ))}
-                    </ul>
-                </section>
-                <section>
-                    <h2>Producers</h2>
-                    <input type="text" name="producer" placeholder="Add producer"
-                        onChange={e => setProducerValue(e.target.value)}
-                        value={producerValue}
-                        onKeyDown={
-                            (event) => {
-                                if (event.key === 'Enter') {
-                                    addProducer(event);
+                        } >Add</button>
+                        <ul>
+                            {tags.map((tag, index) => (
+                                <>
+                                    <li key={index}>{tag}</li>
+                                    <button type="button" onClick={() => { removeTag(index) }}>Remove</button>
+                                </>
+                            ))}
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Producers</h2>
+                        <input type="text" name="producer" placeholder="Add producer"
+                            onChange={e => setProducerValue(e.target.value)}
+                            value={producerValue}
+                            onKeyDown={
+                                (event) => {
+                                    if (event.key === 'Enter') {
+                                        addProducer(event);
+                                    }
                                 }
                             }
-                        }
-                    />
-                    <button type="button" onClick={addProducer}>Add</button>
-                    <ul>
-                        {producers.map((producer, index) => (
-                            <li key={index}>{producer}</li>
-                        ))}
-                    </ul>
-                </section>
-                <section>
-                    <h2>Songwriters</h2>
-                    <input type="text" name="songwriter" placeholder="Add songwriter"
-                        onChange={e => setSongwriterValue(e.target.value)}
-                        value={songwriterValue}
-                        onKeyDown={
-                            (event) => {
-                                if (event.key === 'Enter') {
-                                    addSongwriter(event);
+                        />
+                        <button type="button" onClick={addProducer}>Add</button>
+                        <ul>
+                            {producers.map((producer, index) => (
+                                <li key={index}>{producer}</li>
+                            ))}
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Songwriters</h2>
+                        <input type="text" name="songwriter" placeholder="Add songwriter"
+                            onChange={e => setSongwriterValue(e.target.value)}
+                            value={songwriterValue}
+                            onKeyDown={
+                                (event) => {
+                                    if (event.key === 'Enter') {
+                                        addSongwriter(event);
+                                    }
                                 }
                             }
-                        }
-                    />
-                    <button type="button" onClick={addSongwriter}>Add</button>
-                    <ul>
-                        {songwriters.map((songwriter, index) => (
-                            <li key={index}>{songwriter}</li>
-                        ))}
-                    </ul>
-                </section>
-                <button type="submit">Upload</button>
-                <p>{error}</p>
-            </form>
-        </>
+                        />
+                        <button type="button" onClick={addSongwriter}>Add</button>
+                        <ul>
+                            {songwriters.map((songwriter, index) => (
+                                <li key={index}>{songwriter}</li>
+                            ))}
+                        </ul>
+                    </section>
+                    <button type="submit">Upload</button>
+                    <p>{error}</p>
+                </form>
+            </>
+
+        </div>
     )
 }
