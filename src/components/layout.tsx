@@ -9,7 +9,9 @@ function Layout({ children }: LayoutProps) {
     return (
         <>
             <Navbar />
-            {children}
+            <div className="flex justify-center align-middle">
+                {children}
+            </div>
             <Footer />
         </>
     );

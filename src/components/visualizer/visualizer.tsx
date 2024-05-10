@@ -67,7 +67,7 @@ export default function Visualizer() {
         <>
             <div className="absolute p-10 left-0 right-0 flex flex-col flex-grow-2 items-center z-10">
                 {
-                    selectedSong >= 0 &&
+                    songs.length > 0 &&
                     <>
                         <p>Title: {songs[selectedSong].title}</p>
                         <p>BPM: {songs[selectedSong].bpm}</p>
