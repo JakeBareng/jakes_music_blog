@@ -3,7 +3,7 @@ import { DetailedHTMLProps, HTMLAttributes, useEffect, useRef } from "react";
 function About() {
     const paragraph = useRef(null);
 
-    const text = "I'm Jake, a web developer, computer science student, and music producer. This blog is where I combine my technical skills with my love for music to share things that I make."
+    const text = "I'm Jake, a web developer, computer science student, and music producer. This blog is where I combine my technical skills with my love for music to share things that I make. Check out the github link in the footer to see the code for this site!"
 
     // write text to paragraph
     useEffect(() => {
@@ -22,7 +22,7 @@ function About() {
     }, [])
 
     return (
-        <div className="text-wrap w-1/3">
+        <div className="text-wrap w-2/3">
             <h1 className="font-josefin text-center font-semibold">About me!</h1>
             <p className="font-josefin indent-9" ref={paragraph}></p>
         </div>

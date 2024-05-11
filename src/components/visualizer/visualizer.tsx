@@ -63,42 +63,35 @@ export default function Visualizer() {
         })();
     })
 
+    if (audio === null || selectedSong === -1) {
+        return <p>Loading...</p>
+    }
 
 
     return (
         <>
-            <div className="absolute top-10 left-0 right-0 flex flex-col flex-grow-2 items-center z-10">
-                {
-                    songs.length > 0 &&
-                    <>
-                        <p className="font-josefin text-lg font-semibold">Title: {songs[selectedSong].title}</p>
-                        <p className="font-josefin text-sm opacity-60 font-normal">BPM: {songs[selectedSong].bpm}</p>
-                        <p className="font-josefin text-sm opacity-60 font-normal">key: {songs[selectedSong].key}</p>
-                        <p className="font-josefin text-sm opacity-60 font-normal">Date: {String(new Date(songs[selectedSong].createdAt).toDateString())}</p>
-                        <p className="font-josefin text-sm opacity-60 font-normal">Producers: {songs[selectedSong].producers.join(", ")}</p>
-                        <p className="font-josefin text-sm opacity-60 font-normal">Songwriters: {songs[selectedSong].songwriters.join(", ")}</p>
-                        <p className="font-josefin text-sm opacity-60 font-normal">Tags: {songs[selectedSong].tags.join(", ")}</p>
-                        <VisualizerBtns functions={{ playing, next, prev, start, stop }} />
-                    </>
-                }
+            <div className="absolute top-10 left-0 right-0 flex flex-col flex-grow-2 items-center">
+                <p className="font-josefin text-lg font-semibold">Title: {songs[selectedSong].title}</p>
+                <p className="font-josefin text-sm opacity-60 font-normal">BPM: {songs[selectedSong].bpm}</p>
+                <p className="font-josefin text-sm opacity-60 font-normal">key: {songs[selectedSong].key}</p>
+                <p className="font-josefin text-sm opacity-60 font-normal">Date: {String(new Date(songs[selectedSong].createdAt).toDateString())}</p>
+                <p className="font-josefin text-sm opacity-60 font-normal">Producers: {songs[selectedSong].producers.join(", ")}</p>
+                <p className="font-josefin text-sm opacity-60 font-normal">Songwriters: {songs[selectedSong].songwriters.join(", ")}</p>
+                <p className="font-josefin text-sm opacity-60 font-normal">Tags: {songs[selectedSong].tags.join(", ")}</p>
             </div>
-            <div className="absolute top-0 left-0 w-full h-full z-0 mt-10">
+            <VisualizerBtns functions={{ playing, next, prev, start, stop }} />
+            <div className="absolute top-0 left-0 w-full h-full z-0">
                 <Canvas shadows dpr={[1, 2]} camera={{ position: [-1, 1, 5], fov: 10 }} className={``}>
                     <spotLight position={[-4, 4, -4]} angle={0.1} penumbra={1} castShadow shadow-mapSize={[2048, 2048]} />
                     <Suspense fallback={null}>
-                        {
-                            audio &&
-                            <>
-                                <Track position-z={0} audio={audio} />
-                                <Zoom audio={audio} />
-                            </>
-                        }
+                        <Track position-z={0} audio={audio} />
+                        <Zoom audio={audio} />
                     </Suspense>
                     <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.03, .5]}>
                         <planeGeometry args={[100, 100, 1, 1]} />
                         <shadowMaterial transparent opacity={0.15} />
                     </mesh>
-                    <OrbitControls autoRotate autoRotateSpeed={1.1} enableZoom={false}/>
+                    <OrbitControls autoRotate autoRotateSpeed={1.5} enableZoom={false} enableDamping={false} enableRotate/>
                 </Canvas>
             </div>
         </>

@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { createAudio } from "./createAudio";
 
-export function Track({ audio, y = 1800, space = .4, width = 0.04, height = 0.05, depth = 0.05, obj = new THREE.Object3D(), ...props }: any) {
+export function Track({ audio, y = 2000, space = .2, width = 0.04, height = 0.05, depth = 0.05, obj = new THREE.Object3D(), ...props }: any) {
     const ref = useRef<any>()
     const { gain, context, update, data } = audio;
 
@@ -30,8 +30,8 @@ export function Track({ audio, y = 1800, space = .4, width = 0.04, height = 0.05
     })
     return (
         <instancedMesh castShadow ref={ref} args={[null, null, data.length]} {...props}>
-            <sphereGeometry args={[0.006, 32, 32]} />
-            {/* <boxGeometry args={[.034,.034,.034]} /> */}
+            <sphereGeometry args={[0.005, 32, 32]} />
+            {/* <boxGeometry args={[.004,.004,.004]} /> */}
             <meshBasicMaterial toneMapped={false} />
         </instancedMesh>
     )

@@ -16,7 +16,7 @@ type audioButtons = {
 export default function VisualizerBtns({ functions }: audioButtons) {
     const { playing, start, stop, prev, next } = functions;
     return (
-        <div className="flex flex-row gap-24 mt-10">
+        <div className="absolute bottom-1/4 flex flex-row gap-24 z-10">
             <Image
                 src="/skipNext.svg"
                 alt="prev"

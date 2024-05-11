@@ -14,7 +14,7 @@ function Layout({ children }: LayoutProps) {
         <>
             <div className={`transition duration-300 ease-in-out ${navbarActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
                 <div className={`transition duration-300 ease-in-out fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-30 ${navbarActive ? "opacity-100" : "opacity-0 pointer-events-none"}`} onClick={() => setNavbarActive(false)} />
-                <Navbar />
+                <Navbar navbarActive={navbarActive} setNavbarActive={setNavbarActive} />
             </div>
             {
                 !navbarActive &&
