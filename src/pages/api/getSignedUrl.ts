@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             region: process.env.AWS_REGION || '',
             credentials: {
                 accessKeyId: process.env.AWS_ACCESS_KEY || '',
-                secretAccessKey: process.env.AWS_SECRET_KEY || ''
+                secretAccessKey: process.env.AWS_SECRET_KEY_ID || ''
             }
         };
         const client = new S3Client(clientConfig);
