@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import LoginBtn from "./login-btn";
+import Link from "next/link";
 
 function Navbar() {
     const { data: session } = useSession();
@@ -12,17 +13,17 @@ function Navbar() {
     return (
         <ul className={`absolute p-10 z-50`}>
             <li className={listItemStyle}>
-                <a href="/">Home</a>
+                <Link href="/"> Home </Link>
             </li>
             <li className={listItemStyle}>
-                <a href="/about">About</a>
+                <Link href="/about"> About </Link>
             </li>
             <li className={listItemStyle}>
-                <a href="/contact">Contact</a>
+                <Link href="/projects"> Projects </Link>
             </li>
             {session && (
                 <li className={listItemStyle}>
-                    <a href="/upload">Upload</a>
+                    <Link href="/upload"> Upload </Link>
                 </li>
             )}
             <li className={listItemStyle}>

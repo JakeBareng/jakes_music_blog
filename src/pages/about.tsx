@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, HTMLAttributes, useEffect, useRef } from "react";
 
-function about() {
+function About() {
     const paragraph = useRef(null);
 
     const text = "I'm Jake, a web developer, computer science student, and music producer. This blog is where I combine my technical skills with my love for music to share things that I make."
@@ -11,7 +11,7 @@ function about() {
         let speed = 40;
 
         function typeWriter() {
-            if (i < text.length) {
+            if (i < text.length && paragraph.current) {
                 paragraph.current.innerHTML += text.charAt(i);
                 i++;
                 setTimeout(typeWriter, speed);
@@ -30,4 +30,4 @@ function about() {
     
 }
 
-export default about;
+export default About;

@@ -48,7 +48,7 @@ export default function Visualizer() {
 
     useEffect(() => {
         audio?.changeSrc(songs[selectedSong].URL);
-    }, [selectedSong])
+    }, [selectedSong, audio, songs])
 
     //fetch songs on load
     useEffect(() => {
@@ -60,7 +60,7 @@ export default function Visualizer() {
                 setAudio(await createAudio(res[0].URL));
             }
         })();
-    }, [])
+    })
 
 
 

@@ -1,7 +1,7 @@
 import Visualizer from "@/components/visualizer/visualizer";
 import { useState } from "react";
 
-export default function index() {
+export default function Index() {
   // fetch data from an API
   const [play, setPlay] = useState(false);
   return (
