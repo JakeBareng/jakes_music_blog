@@ -24,6 +24,10 @@ export default function Upload() {
         return <p>Access Denied</p>
     }
 
+    if (!session?.user.isAdmin) {
+        return <p>Access Denied</p>
+    }
+
     function clearInputs() {
         setFile(undefined);
         setTagValue('');
@@ -163,7 +167,7 @@ export default function Upload() {
         setSongwriterValue('');
     }
 
-    const allKeys = ['N/A','A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+    const allKeys = ['N/A', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
     return (
         <div className={`flex flex-col align-middle w-3/12 m-auto mt-56`}>

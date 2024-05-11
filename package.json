@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.0.0",
     "@aws-sdk/client-s3": "^3.556.0",
     "@aws-sdk/s3-request-presigner": "^3.556.0",
     "@react-three/drei": "^9.105.5",
@@ -16,7 +17,7 @@
     "@types/aws-sdk": "^2.7.0",
     "body-parser": "^1.20.2",
     "glslify": "^7.1.1",
-    "mongodb": "^6.5.0",
+    "mongodb": "^6.6.1",
     "mongoose": "^8.3.2",
     "next": "14.1.4",
     "next-auth": "^4.24.7",

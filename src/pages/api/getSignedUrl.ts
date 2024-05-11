@@ -13,6 +13,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (!sessions) {
             return res.status(401).send('Unauthorized');
         }
+        if (!sessions?.user.isAdmin) {
+            return res.status(401).send('Unauthorized');
+        }
 
         const clientConfig: S3ClientConfig = {
             region: process.env.AWS_REGION || '',
