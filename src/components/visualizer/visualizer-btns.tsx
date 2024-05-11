@@ -16,15 +16,24 @@ type audioButtons = {
 export default function VisualizerBtns({ functions }: audioButtons) {
     const { playing, start, stop, prev, next } = functions;
     return (
-        <div className="flex flex-row ">
-            <button onClick={prev} className={`font-josefin m-10`}>prev</button>
+        <div className="flex flex-row gap-24 mt-10">
+            <Image
+                src="/skipNext.svg"
+                alt="prev"
+                width={30}
+                height={30}
+                style={{ opacity: 0.8, transform: "rotate(180deg)" }}
+                onClick={prev}
+                className={`cursor-pointer`}
+            />
+
             {playing ?
                 <Image
                     src="/pauseIcon.svg"
                     alt="pause"
-                    width={30}
-                    height={30}
-                    style={{opacity: 0.8}}
+                    width={35}
+                    height={35}
+                    style={{ opacity: 0.8 }}
                     onClick={stop}
                     className={`cursor-pointer`}
                 />
@@ -32,14 +41,22 @@ export default function VisualizerBtns({ functions }: audioButtons) {
                 <Image
                     src="/playIcon.svg"
                     alt="play"
-                    width={30}
-                    height={30}
-                    style={{opacity: 0.8}}
+                    width={40}
+                    height={40}
+                    style={{ opacity: 0.8 }}
                     onClick={start}
                     className={`cursor-pointer`}
                 />
             }
-            <button onClick={next} className={`font-josefin m-10`}>next</button>
+            <Image
+                src="/skipNext.svg"
+                alt="next"
+                width={30}
+                height={30}
+                style={{ opacity: 0.8 }}
+                onClick={next}
+                className={`cursor-pointer`}
+            />
 
         </div>
     )

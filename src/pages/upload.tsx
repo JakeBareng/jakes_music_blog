@@ -1,3 +1,4 @@
+import { set } from "mongoose";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
@@ -24,13 +25,16 @@ export default function Upload() {
     }
 
     function clearInputs() {
+        setFile(undefined);
+        setTagValue('');
+        setTags([]);
         setTitle('');
         setBpm(0);
-        setTags([]);
-        setTagValue('');
-        setFile(undefined);
-        setError('');
-        setKey('');
+        setKey('N/A');
+        setProducerValue('');
+        setProducers([]);
+        setSongwriterValue('');
+        setSongwriters([]);
     }
 
     function checkInputs() {
@@ -108,6 +112,9 @@ export default function Upload() {
             })
             if (metadataUpload.status !== 200)
                 throw new Error('Error uploading metadata');
+
+            clearInputs();
+            setError('Upload successful');
         } catch (error: any) {
             setError(error.message);
         }

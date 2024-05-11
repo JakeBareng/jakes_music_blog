@@ -22,6 +22,7 @@ function Layout({ children }: LayoutProps) {
                     src={"/menuIcon.svg"}
                     width={30}
                     height={30}
+                    priority
                     alt="menu icon"
                     className="fixed top-10 left-10 z-50 cursor-pointer"
                     onClick={() => setNavbarActive(true)}
