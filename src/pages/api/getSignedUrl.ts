@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).send('Method Not Allowed');
 
     try {
-        const sessions = await getServerSession(req, res, authOptions);
+        const sessions = await getServerSession();
         if (!sessions) {
             return res.status(401).send('Unauthorized');
         }

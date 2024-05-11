@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         // Check if the user is authenticated
-        const sessions = await getServerSession(req, res, authOptions);
+        const sessions = await getServerSession();
 
         // check if user is admin
         if (!sessions?.user.isAdmin) {

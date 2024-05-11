@@ -27,6 +27,7 @@ export async function createAudio(url: string) {
     analyser.connect(gain)
     // The data array receive the audio frequencies
     const data = new Uint8Array(analyser.frequencyBinCount)
+    let avg = 0;
 
     return {
         context,
@@ -41,7 +42,7 @@ export async function createAudio(url: string) {
                 const buffer = await res.arrayBuffer();
 
                 // 2. Decode the new audio data
-                const decodedAudio = await new Promise((res) => context.decodeAudioData(buffer, res));
+                const decodedAudio = await new Promise<AudioBuffer>((res) => context.decodeAudioData(buffer, res));
 
                 // 3. Stop the old audio source
                 source.stop();
@@ -65,7 +66,8 @@ export async function createAudio(url: string) {
         update: () => {
             analyser.getByteFrequencyData(data)
             // Calculate a frequency average
-            return data.avg = data.reduce((prev, cur) => prev + cur, 0) / data.length
+            return avg = data.reduce((prev, cur) => prev + cur, 0) / data.length
+            // return data.avg = data.reduce((prev, cur) => prev + cur, 0) / data.length
         }
     }
 }

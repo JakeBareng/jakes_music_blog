@@ -11,7 +11,7 @@ import VisualizerBtns from "./visualizer-btns"
 import song, { Song } from "@/models/song"
 
 export default function Visualizer() {
-    const [audio, setAudio] = useState<AudioData | null>(null);
+    const [audio, setAudio] = useState<any>(null);
     const [playing, setPlaying] = useState(false);
     const [songs, setSongs] = useState<Song[]>([]);
     const [selectedSong, setSelectedSong] = useState(-1);
@@ -57,7 +57,8 @@ export default function Visualizer() {
                 const res = await getSongs();
                 setSongs(res);
                 setSelectedSong(0);
-                setAudio(await createAudio(res[0].URL));
+                const audio = await createAudio(res[0].URL);
+                setAudio(audio);
             }
         })();
     })
@@ -107,10 +108,11 @@ export default function Visualizer() {
 function Zoom({ audio }: { audio: AudioData }) {
     // This will *not* re-create a new audio source, suspense is always cached,
     // so this will just access (or create and then cache) the source according to the url
-    const { data } = audio;
+    const { avg } = audio;
     return useFrame((state) => {
         // Set the cameras field of view according to the frequency average
-        state.camera.fov = 10 - data.avg / 100
-        state.camera.updateProjectionMatrix()
-    })
+        (state.camera as THREE.PerspectiveCamera).fov = 10 - avg / 100;
+
+        state.camera.updateProjectionMatrix();
+    });
 }

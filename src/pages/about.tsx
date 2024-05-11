@@ -12,7 +12,7 @@ function About() {
 
         function typeWriter() {
             if (i < text.length && paragraph.current) {
-                paragraph.current.innerHTML += text.charAt(i);
+                (paragraph.current as HTMLElement).innerHTML += text.charAt(i);
                 i++;
                 setTimeout(typeWriter, speed);
             }
