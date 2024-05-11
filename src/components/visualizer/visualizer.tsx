@@ -81,7 +81,7 @@ export default function Visualizer() {
                     </>
                 }
             </div>
-            <div className="absolute top-0 left-0 w-full h-full z-0">
+            <div className="absolute top-0 left-0 w-full h-full z-0 mt-10">
                 <Canvas shadows dpr={[1, 2]} camera={{ position: [-1, 1, 5], fov: 10 }} className={``}>
                     <spotLight position={[-4, 4, -4]} angle={0.1} penumbra={1} castShadow shadow-mapSize={[2048, 2048]} />
                     <Suspense fallback={null}>
