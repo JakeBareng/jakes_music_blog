@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import Song from '@/models/song';
-import connectMongo from '../lib/connectDB';
+import connectMongo from '../../lib/connectDB';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
 

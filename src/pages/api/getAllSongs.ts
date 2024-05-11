@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectMongo from "../lib/connectDB";
+import connectMongo from "../../lib/connectDB";
 import song from "@/models/song";
 
 
