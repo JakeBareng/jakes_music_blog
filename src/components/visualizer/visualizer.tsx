@@ -63,19 +63,20 @@ export default function Visualizer() {
     }, [])
 
 
+
     return (
         <>
-            <div className="absolute p-10 left-0 right-0 flex flex-col flex-grow-2 items-center z-10">
+            <div className="absolute top-10 left-0 right-0 flex flex-col flex-grow-2 items-center z-10">
                 {
                     songs.length > 0 &&
                     <>
-                        <p>Title: {songs[selectedSong].title}</p>
-                        <p>BPM: {songs[selectedSong].bpm}</p>
-                        <p>key: {songs[selectedSong].key}</p>
-                        <p>Date: {String(new Date(songs[selectedSong].createdAt))}</p>
-                        <p>Producers: {songs[selectedSong].producers.join(", ")}</p>
-                        <p>Songwriters: {songs[selectedSong].songwriters.join(", ")}</p>
-                        <p>Tags: {songs[selectedSong].tags.join(", ")}</p>
+                        <p className="font-josefin text-lg font-semibold">Title: {songs[selectedSong].title}</p>
+                        <p className="font-josefin text-sm opacity-60 font-normal">BPM: {songs[selectedSong].bpm}</p>
+                        <p className="font-josefin text-sm opacity-60 font-normal">key: {songs[selectedSong].key}</p>
+                        <p className="font-josefin text-sm opacity-60 font-normal">Date: {String(new Date(songs[selectedSong].createdAt).toDateString())}</p>
+                        <p className="font-josefin text-sm opacity-60 font-normal">Producers: {songs[selectedSong].producers.join(", ")}</p>
+                        <p className="font-josefin text-sm opacity-60 font-normal">Songwriters: {songs[selectedSong].songwriters.join(", ")}</p>
+                        <p className="font-josefin text-sm opacity-60 font-normal">Tags: {songs[selectedSong].tags.join(", ")}</p>
                         <VisualizerBtns functions={{ playing, next, prev, start, stop }} />
                     </>
                 }
@@ -96,6 +97,7 @@ export default function Visualizer() {
                         <planeGeometry args={[100, 100, 1, 1]} />
                         <shadowMaterial transparent opacity={0.15} />
                     </mesh>
+                    <OrbitControls autoRotate autoRotateSpeed={1.1} enableZoom={false}/>
                 </Canvas>
             </div>
         </>

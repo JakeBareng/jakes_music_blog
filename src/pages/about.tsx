@@ -1,9 +1,8 @@
 
 function about() {
     return (
-        <div className="">
-            <h1>About</h1>
-            
+        <div>
+            <h1 className="font-josefin text-center font-semibold">About</h1>
         </div>
     )
     

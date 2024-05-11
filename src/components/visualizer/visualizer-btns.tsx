@@ -1,3 +1,6 @@
+import Image from "next/image";
+
+
 
 type audioButtons = {
     functions: {
@@ -9,18 +12,35 @@ type audioButtons = {
     }
 }
 
+
 export default function VisualizerBtns({ functions }: audioButtons) {
     const { playing, start, stop, prev, next } = functions;
     return (
-        <div className="flex flex-row">
-            <button onClick={prev} className={`m-10`}>prev</button>
+        <div className="flex flex-row ">
+            <button onClick={prev} className={`font-josefin m-10`}>prev</button>
             {playing ?
-                <button onClick={stop}
-                    className={`m-10`}>pause</button> :
-                <button onClick={start}
-                    className={`m-10`}>play</button>
+                <Image
+                    src="/pauseIcon.svg"
+                    alt="pause"
+                    width={30}
+                    height={30}
+                    style={{opacity: 0.8}}
+                    onClick={stop}
+                    className={`cursor-pointer`}
+                />
+                :
+                <Image
+                    src="/playIcon.svg"
+                    alt="play"
+                    width={30}
+                    height={30}
+                    style={{opacity: 0.8}}
+                    onClick={start}
+                    className={`cursor-pointer`}
+                />
             }
-            <button onClick={next} className={`m-10`}>next</button>
+            <button onClick={next} className={`font-josefin m-10`}>next</button>
+
         </div>
     )
 }

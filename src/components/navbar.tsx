@@ -5,7 +5,7 @@ function Navbar() {
     const { data: session } = useSession();
 
     // have constant size and make overflow visible
-    const listItemStyle = ""
+    const listItemStyle = "font-josefin text-m text-white hover:text-slate-200 transition duration-300 ease-in-out"
 
     // unordered list, no bullets, horizontal, no padding, no margin
 
