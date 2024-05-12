@@ -9,6 +9,7 @@ import { AudioData, createAudio } from "./createAudio"
 import { set } from "mongoose"
 import VisualizerBtns from "./visualizer-btns"
 import song, { Song } from "@/models/song"
+import Metadata from "./metadata"
 
 export default function Visualizer() {
     const [audio, setAudio] = useState<any>(null);
@@ -70,15 +71,7 @@ export default function Visualizer() {
 
     return (
         <>
-            <div className="absolute top-10 left-0 right-0 flex flex-col flex-grow-2 items-center">
-                <p className="font-josefin text-lg font-semibold">Title: {songs[selectedSong].title}</p>
-                <p className="font-josefin text-sm opacity-60 font-normal">BPM: {songs[selectedSong].bpm}</p>
-                <p className="font-josefin text-sm opacity-60 font-normal">key: {songs[selectedSong].key}</p>
-                <p className="font-josefin text-sm opacity-60 font-normal">Date: {String(new Date(songs[selectedSong].createdAt).toDateString())}</p>
-                <p className="font-josefin text-sm opacity-60 font-normal">Producers: {songs[selectedSong].producers.join(", ")}</p>
-                <p className="font-josefin text-sm opacity-60 font-normal">Songwriters: {songs[selectedSong].songwriters.join(", ")}</p>
-                <p className="font-josefin text-sm opacity-60 font-normal">Tags: {songs[selectedSong].tags.join(", ")}</p>
-            </div>
+            <Metadata metadata={songs[selectedSong]} />
             <VisualizerBtns functions={{ playing, next, prev, start, stop }} />
             <div className="absolute top-0 left-0 w-full h-full z-0">
                 <Canvas shadows dpr={[1, 2]} camera={{ position: [-1, 1, 5], fov: 10 }} className={``}>
