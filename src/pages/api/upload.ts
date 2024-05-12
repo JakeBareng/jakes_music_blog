@@ -4,7 +4,7 @@ import Song from '@/models/song';
 import connectMongo from '../../lib/connectDB';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
-
+"use server";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -13,14 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         // Check if the user is authenticated
-        const sessions = await getServerSession();
+        const session = await getServerSession(req as any, res as any, authOptions as any) as { user: { isAdmin: boolean } } | null | undefined;
 
         // check if user is admin
-        if (!sessions?.user.isAdmin) {
+        if (!session?.user.isAdmin) {
             return res.status(401).send('Unauthorized');
         }
 
-        if (!sessions) {
+        if (!session) {
             return res.status(401).send('Unauthorized');
         }
 
